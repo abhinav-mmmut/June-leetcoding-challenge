@@ -1,0 +1,65 @@
+Suppose you have a random list of people standing in a queue. Each person is described by a pair of integers (h, k), where h is the height of the person and k is the number of people in front of this person who have a height greater than or equal to h. Write an algorithm to reconstruct the queue.
+
+Note:
+The number of people is less than 1,100.
+
+ 
+Example
+
+Input:
+[[7,0], [4,4], [7,1], [5,0], [6,1], [5,2]]
+
+Output:
+[[5,0], [7,0], [5,2], [6,1], [4,4], [7,1]]
+ 
+
+   Show Hint #1  
+
+   Show Hint #2  
+C++	
+1
+class Solution {
+2
+public:
+3
+    static auto cmp(vector<int> a, vector<int> b){
+4
+            return a[0]>b[0] || (a[0]==b[0] && a[1]<b[1]);
+5
+        }
+6
+    vector<vector<int>> reconstructQueue(vector<vector<int>>& p) {
+7
+        int n=p.size();
+8
+        if(n==0) return p;
+9
+        vector<vector<int>> ans;
+10
+        
+11
+        sort(p.begin(),p.end(),cmp);
+12
+        ans.push_back(p[0]);
+13
+        for(int i=1;i<n;i++){
+14
+            int j=0;
+15
+            while(j!=p[i][1] && j<n){
+16
+                j++;
+17
+            }
+18
+            ans.insert(ans.begin()+j,p[i]);
+19
+            
+20
+        }
+21
+        return ans;
+22
+    }
+23
+};
