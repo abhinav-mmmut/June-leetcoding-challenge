@@ -1,0 +1,116 @@
+Insert Delete GetRandom O(1)
+
+Solution
+Design a data structure that supports all following operations in average O(1) time.
+
+insert(val): Inserts an item val to the set if not already present.
+remove(val): Removes an item val from the set if present.
+getRandom: Returns a random element from current set of elements. Each element must have the same probability of being returned.
+Example:
+
+// Init an empty set.
+RandomizedSet randomSet = new RandomizedSet();
+
+// Inserts 1 to the set. Returns true as 1 was inserted successfully.
+randomSet.insert(1);
+
+// Returns false as 2 does not exist in the set.
+randomSet.remove(2);
+
+// Inserts 2 to the set, returns true. Set now contains [1,2].
+randomSet.insert(2);
+
+// getRandom should return either 1 or 2 randomly.
+randomSet.getRandom();
+
+// Removes 1 from the set, returns true. Set now contains [2].
+randomSet.remove(1);
+
+// 2 was already in the set, so return false.
+randomSet.insert(2);
+
+// Since 2 is the only number in the set, getRandom always return 2.
+randomSet.getRandom();
+C++	
+1
+class RandomizedSet {
+2
+public:
+3
+    vector<int> v;
+4
+    unordered_map<int,int> pos;
+5
+    /** Initialize your data structure here. */
+6
+    RandomizedSet() {
+7
+        
+8
+    }
+9
+    
+10
+    /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
+11
+    bool insert(int val) {
+12
+        if(pos.count(val)) return false;
+13
+        v.push_back(val);
+14
+        pos.insert({val,v.size()-1});
+15
+        return true;
+16
+    }
+17
+    
+18
+    /** Removes a value from the set. Returns true if the set contained the specified element. */
+19
+    bool remove(int val) {
+20
+        if(!pos.count(val)) return false;
+21
+        int idx=pos[val];
+22
+        v[idx]=v[v.size()-1];
+23
+        pos[v[idx]]=idx;
+24
+        v.pop_back();
+25
+        pos.erase(val);
+26
+        return true;
+27
+    }
+28
+    
+29
+    /** Get a random element from the set. */
+30
+    int getRandom() {
+31
+        return v[rand()%v.size()];
+32
+    }
+33
+};
+34
+​
+35
+/**
+36
+ * Your RandomizedSet object will be instantiated and called as such:
+37
+ * RandomizedSet* obj = new RandomizedSet();
+38
+ * bool param_1 = obj->insert(val);
+39
+ * bool param_2 = obj->remove(val);
+40
+ * int param_3 = obj->getRandom();
+41
+ */
